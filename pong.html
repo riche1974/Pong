@@ -1,68 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta viewport="width=device-width, initial-scale=1.0">
-    <title>Pong Game</title>
-    <style>
-        body { background-color: black; color: white; text-align: center; }
-        canvas { border: 1px solid white; }
-        button { margin: 10px; padding: 10px; font-size: 16px; }
-    </style>
-</head>
-<body>
-    <h1>Pong Game</h1>
-    <canvas id="pong" width="800" height="400"></canvas>
-    <div>
-        <button id="startBtn">Start</button>
-        <button id="stopBtn">Stop</button>
-    </div>
-    <script>
-        // Game variables
-        let canvas = document.getElementById('pong');
-        let context = canvas.getContext('2d');
-        let interval;
-        let ballSpeed = 5;
-        let ballPos = { x: canvas.width / 2, y: canvas.height / 2 };
-        let ballDirection = { x: 1, y: 1 };
-        let gameTime = 0;
+// Add a flag to track the game state
+let gameRunning = false;
 
-        // Start the game
-        function startGame() {
-            interval = setInterval(updateGame, 1000 / 60);
-            setInterval(increaseSpeed, 60000);
+// Store the speedInterval variable to clear it when stopping
+let speedInterval;
+
+function startGame() {
+    gameRunning = true;
+    speedInterval = setInterval(() => {
+        if (gameRunning) {
+            // Logic to increase speed
         }
+    }, 1000);
+}
 
-        // Stop the game
-        function stopGame() {
-            clearInterval(interval);
-            ballSpeed = 5; // Reset speed on stop
-        }
-
-        // Update the game state
-        function updateGame() {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            ballPos.x += ballSpeed * ballDirection.x;
-            ballPos.y += ballSpeed * ballDirection.y;
-
-            // Collision detection logic here
-
-            context.beginPath();
-            context.arc(ballPos.x, ballPos.y, 10, 0, Math.PI * 2);
-            context.fill();
-        }
-
-        // Increase ball speed every 60 seconds
-        function increaseSpeed() {
-            if (gameTime < 600) { // 600 seconds max
-                ballSpeed++;
-                gameTime++;
-            }
-        }
-
-        // Button event listeners
-        document.getElementById('startBtn').addEventListener('click', startGame);
-        document.getElementById('stopBtn').addEventListener('click', stopGame);
-    </script>
-</body>
-</html>
+function stopGame() {
+    gameRunning = false;
+    clearInterval(speedInterval);
+}

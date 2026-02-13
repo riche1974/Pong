@@ -1,147 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Game</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: black;
-        }
-        canvas {
-            border: 1px solid white;
-        }
-    </style>
-</head>
-<body>
-    <canvas id="pong" width="800" height="400"></canvas>
-    <script>
-        const canvas = document.getElementById('pong');
-        const ctx = canvas.getContext('2d');
+<!-- Add buttons for start and stop controls -->
+<button id="startButton">Start Game</button>
+<button id="stopButton">Stop Game</button>
 
-        // Create the pong paddle
-        const paddleWidth = 10;
-        const paddleHeight = 100;
-        const player = {
-            x: 0,
-            y: canvas.height / 2 - paddleHeight / 2,
-            width: paddleWidth,
-            height: paddleHeight,
-            color: 'white',
-            score: 0
-        };
-        const computer = {
-            x: canvas.width - paddleWidth,
-            y: canvas.height / 2 - paddleHeight / 2,
-            width: paddleWidth,
-            height: paddleHeight,
-            color: 'white',
-            score: 0
-        };
+<script>
+    const startButton = document.getElementById("startButton");
+    const stopButton = document.getElementById("stopButton");
 
-        // Create the pong ball
-        const ball = {
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            radius: 10,
-            speed: 5,
-            velocityX: 5,
-            velocityY: 5,
-            color: 'white'
-        };
+    startButton.addEventListener("click", () => {
+        // Code to start the game
+        console.log("Game started");
+        // Add your game start logic here
+    });
 
-        // Draw everything
-        function draw() {
-            // Clear the canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // Draw the paddles
-            ctx.fillStyle = player.color;
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-            ctx.fillStyle = computer.color;
-            ctx.fillRect(computer.x, computer.y, computer.width, computer.height);
-            // Draw the ball
-            ctx.fillStyle = ball.color;
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
-            ctx.closePath();
-            ctx.fill();
-            // Draw the scoreboard
-            ctx.font = '35px sans-serif';
-            ctx.fillText(player.score, canvas.width / 4, canvas.height / 5);
-            ctx.fillText(computer.score, 3 * canvas.width / 4, canvas.height / 5);
-        }
-
-        // Update the canvas
-        function update() {
-            ball.x += ball.velocityX;
-            ball.y += ball.velocityY;
-
-            // Ball collision with top/bottom walls
-            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-                ball.velocityY = -ball.velocityY;
-            }
-
-            // Ball collision with paddles
-            let playerPaddle = (ball.x < canvas.width / 2) ? player : computer;
-            if (collision(ball, playerPaddle)) {
-                ball.velocityX = -ball.velocityX;
-            }
-
-            // If the ball goes to the left or right
-            if (ball.x + ball.radius < 0) {
-                computer.score++; // point for computer
-                resetBall();
-            } else if (ball.x - ball.radius > canvas.width) {
-                player.score++; // point for player
-                resetBall();
-            }
-        }
-
-        // Ball reset
-        function resetBall() {
-            ball.x = canvas.width / 2;
-            ball.y = canvas.height / 2;
-            ball.velocityX = -ball.velocityX;
-        }
-
-        // Collision detection
-        function collision(ball, paddle) {
-            return ball.x + ball.radius > paddle.x &&
-                   ball.x - ball.radius < paddle.x + paddle.width &&
-                   ball.y + ball.radius > paddle.y &&
-                   ball.y - ball.radius < paddle.y + paddle.height;
-        }
-
-        // Control the player paddle
-        window.addEventListener('mousemove', (event) => {
-            const rect = canvas.getBoundingClientRect();
-            player.y = event.clientY - rect.top - player.height / 2;
-        });
-
-        // Simple AI for computer paddle
-        function ai() {
-            const paddleCenter = computer.y + computer.height / 2;
-            if (paddleCenter < ball.y) {
-                computer.y += 4;
-            } else {
-                computer.y -= 4;
-            }
-        }
-
-        // Game loop
-        function game() {
-            draw();
-            update();
-            ai();
-            requestAnimationFrame(game);
-        }
-
-        game();
-    </script>
-</body>
-</html>
+    stopButton.addEventListener("click", () => {
+        // Code to stop the game
+        console.log("Game stopped");
+        // Add your game stop logic here
+    });
+</script>
